@@ -73,7 +73,7 @@ public class OpeningScene {
         startButton.setOnAction(e -> mainApp.showUserDataScene());
         
         // Footer
-        Label footerLabel = new Label("© Group 16 Home Workout App");
+        Label footerLabel = new Label("© 2025 Group 16 - Home Workout App | Beta Version");
         footerLabel.setTextFill(Color.web("#636e72"));
         footerLabel.setFont(Font.font("System", 12));
         

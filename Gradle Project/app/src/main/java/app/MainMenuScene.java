@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -121,28 +122,50 @@ public class MainMenuScene {
             "Lihat jadwal dan program latihan sesuai kebutuhan Anda",
             "Pilih"
         );
-        
         // Find the button in the dailyExercCard and add an action
         Button programButton = (Button) dailyExercCard.getChildren().get(dailyExercCard.getChildren().size() - 1);
-        programButton.setOnAction(e -> mainApp.showLatihanHarianScene());
+        programButton.setOnAction(e -> mainApp.showDailyExerciseScene());
 
         VBox bodyFocusCard = createMenuCard(
             "Tantangan Fokus Tubuh",
             "Tantangan khusus untuk melatih bagian tubuh tertentu",
             "Mulai"
         );
+        // Find the button in the bodyFocusCard and add an action
+        Button bodyFocusButton = (Button) bodyFocusCard.getChildren().get(bodyFocusCard.getChildren().size() - 1);
+        bodyFocusButton.setOnAction(e -> mainApp.showBodyChallengeMenuScene());
         
         VBox progressCard = createMenuCard(
             "Progres Latihan",
             "Lihat perkembangan latihan anda",
             "Lihat"
         );
+
+        Button progressButton = (Button) progressCard.getChildren().get(progressCard.getChildren().size() - 1);
+        // Tambahkan aksi ketika tombol ditekan
+        progressButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informasi");
+            alert.setHeaderText(null);
+            alert.setContentText("Fitur belum tersedia. Masih dalam tahap pengembangan oleh developer.");
+            alert.showAndWait();
+        });
         
         VBox tipsCard = createMenuCard(
             "Tips & Panduan",
             "Dapatkan tips dan panduan latihan",
             "Baca"
         );
+
+        Button tipsButton = (Button) tipsCard.getChildren().get(tipsCard.getChildren().size() - 1);
+        // Tambahkan aksi ketika tombol ditekan
+        tipsButton.setOnAction(e -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Informasi");
+            alert.setHeaderText(null);
+            alert.setContentText("Fitur belum tersedia. Masih dalam tahap pengembangan oleh developer.");
+            alert.showAndWait();
+        });
         
         // Add cards to grid
         menuGrid.add(dailyExercCard, 0, 0);
@@ -162,7 +185,7 @@ public class MainMenuScene {
         footer.setAlignment(Pos.CENTER);
         footer.setPadding(new Insets(20, 0, 20, 0));
         
-        Label footerLabel = new Label("© Group 16 Home Workout App | Versi 1.0");
+        Label footerLabel = new Label("© 2025 Group 16 - Home Workout App | Beta Version");
         footerLabel.setTextFill(Color.web("#636e72"));
         
         footer.getChildren().add(footerLabel);
@@ -193,24 +216,24 @@ public class MainMenuScene {
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
         
         // Card hover effect
-        card.setOnMouseEntered(e -> {
-            card.setStyle("-fx-background-color: #2d3436; " +
-                    "-fx-background-radius: 5; " +
-                    "-fx-border-color: #ff6b6b; " +
-                    "-fx-border-width: 1; " +
-                    "-fx-border-radius: 5; " +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0); " +
-                    "-fx-translate-y: -2px;");
-        });
+        // card.setOnMouseEntered(e -> {
+        //     card.setStyle("-fx-background-color: #2d3436; " +
+        //             "-fx-background-radius: 5; " +
+        //             "-fx-border-color: #ff6b6b; " +
+        //             "-fx-border-width: 1; " +
+        //             "-fx-border-radius: 5; " +
+        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0); " +
+        //             "-fx-translate-y: -2px;");
+        // });
         
-        card.setOnMouseExited(e -> {
-            card.setStyle("-fx-background-color: #2d3436; " +
-                    "-fx-background-radius: 5; " +
-                    "-fx-border-color: transparent; " +
-                    "-fx-border-width: 1; " +
-                    "-fx-border-radius: 5; " +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
-        });
+        // card.setOnMouseExited(e -> {
+        //     card.setStyle("-fx-background-color: #2d3436; " +
+        //             "-fx-background-radius: 5; " +
+        //             "-fx-border-color: transparent; " +
+        //             "-fx-border-width: 1; " +
+        //             "-fx-border-radius: 5; " +
+        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
+        // });
         
         // Icon circle
         Circle iconCircle = new Circle(25);

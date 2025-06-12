@@ -9,6 +9,11 @@ public class Main extends Application {
     private static final int HEIGHT = 600;
     private Stage primaryStage;
     private User user;
+
+    public Stage getPrimaryStage() {
+        return primaryStage;
+    }
+
     
     @Override
     public void start(Stage primaryStage) {
@@ -39,11 +44,29 @@ public class Main extends Application {
         primaryStage.setScene(mainMenuScene.getScene());
     }
 
-    public void showLatihanHarianScene() {
-        DailyExerciseScene latihanHarianScene = new DailyExerciseScene(this, WIDTH, HEIGHT, user);
-        primaryStage.setScene(latihanHarianScene.getScene());
+    public void showDailyExerciseScene() {
+        DailyExerciseScene dailyExerciseScene = new DailyExerciseScene(this, WIDTH, HEIGHT, user);
+        primaryStage.setScene(dailyExerciseScene.getScene());
     }
     
+    public void showExerciseProgramScene(String programType) {
+        ExerciseProgramScene exerciseProgramScene = new ExerciseProgramScene(this, WIDTH, HEIGHT, user, programType);
+        
+        // PENTING: Set ukuran stage secara eksplisit
+        primaryStage.setWidth(WIDTH);
+        primaryStage.setHeight(HEIGHT);
+        primaryStage.centerOnScreen(); // Optional: center window
+        
+        primaryStage.setScene(exerciseProgramScene.getScene());
+    }
+
+    public void showBodyChallengeMenuScene() {
+        BodyChallengeMenuScene bodyChallengeMenuScene = new BodyChallengeMenuScene(this, WIDTH, HEIGHT, user);
+        primaryStage.setScene(bodyChallengeMenuScene.getScene());
+    }
+
+
+
     public User getUser() {
         return user;
     }

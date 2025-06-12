@@ -15,16 +15,14 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class DailyExerciseScene extends Template {
+public class BodyChallengeMenuScene extends Template {
     private Scene scene;
     private Main mainApp;
     private User user;
-    private ExerciseKatalog exerciseKatalog;
 
-    public DailyExerciseScene(Main mainApp, int width, int height, User user) {
+    public BodyChallengeMenuScene(Main mainApp, int width, int height, User user) {
         this.mainApp = mainApp;
         this.user = user;
-        this.exerciseKatalog = new ExerciseKatalog();
         
         // Create root container
         BorderPane root = new BorderPane();
@@ -55,7 +53,7 @@ public class DailyExerciseScene extends Template {
         Button backButton = createButtonCard("Kembali");
         backButton.setOnAction(e -> mainApp.showMainMenuScene());
         
-        Label headerTitle = new Label("Latihan Harian");
+        Label headerTitle = new Label("Tantangan Fokus Tubuh");
         headerTitle.setFont(Font.font("System", FontWeight.BOLD, 20));
         headerTitle.setTextFill(Color.WHITE);
         
@@ -80,55 +78,45 @@ public class DailyExerciseScene extends Template {
         contentBox.setAlignment(Pos.CENTER);
         
         // Welcome message
-        Label welcomeLabel = new Label("Pilih Program Latihan Sesuai Tujuan dan Kebutuhan Anda");
+        Label welcomeLabel = new Label("Pilih Bagian Tubuh yang Ingin Anda Fokuskan");
         welcomeLabel.setFont(Font.font("System", FontWeight.BOLD, 18));
         welcomeLabel.setTextFill(Color.web("#dfe6e9"));
         
-        // Create exercise program buttons - Changed to VBox
+        // Create body challenge program buttons
         VBox programMenu = new VBox(15); // 15 spacing between items
         programMenu.setAlignment(Pos.CENTER); // Center alignment
         programMenu.setMaxWidth(400);
         
-        // Weight gain program
-        VBox weightGainCard2 = createProgramMenuCard(
-            "Menambah Berat Badan",
-            "Program latihan untuk menambah massa otot dan berat badan",
-            "Pilih",
-            () -> showExerciseProgram("weight_gain")
+        // Upper body program
+        VBox upperBodyCard = createBodyChallengeCard(
+            "Upper Body Challenge",
+            "Fokus latihan untuk tubuh bagian atas",
+            "Mulai Challenge",
+            () -> showBodyChallenge("upper_body")
         );
         
-        // Weight loss program
-        VBox weightLossCard2 = createProgramMenuCard(
-            "Menurunkan Berat Badan",
-            "Program latihan kardio dan HIIT untuk membakar lemak",
-            "Pilih",
-            () -> showExerciseProgram("weight_loss")
-        );
-        
-        // Stamina program
-        VBox staminaCard2 = createProgramMenuCard(
-            "Menjaga Stamina",
-            "Program latihan untuk meningkatkan daya tahan tubuh",
-            "Pilih",
-            () -> showExerciseProgram("stamina")
+        // Lower body program
+        VBox lowerBodyCard = createBodyChallengeCard(
+            "Lower Body Challenge",
+            "Fokus latihan untuk tubuh bagian bawah",
+            "Mulai Challenge",
+            () -> showBodyChallenge("lower_body")
         );
         
         // Set consistent width for all cards
-        weightGainCard2.setMaxWidth(350);
-        weightGainCard2.setPrefWidth(350);
-        weightLossCard2.setMaxWidth(350);
-        weightLossCard2.setPrefWidth(350);
-        staminaCard2.setMaxWidth(350);
-        staminaCard2.setPrefWidth(350);
+        upperBodyCard.setMaxWidth(350);
+        upperBodyCard.setPrefWidth(350);
+        lowerBodyCard.setMaxWidth(350);
+        lowerBodyCard.setPrefWidth(350);
         
         // Add cards to VBox
-        programMenu.getChildren().addAll(weightGainCard2, weightLossCard2, staminaCard2);
+        programMenu.getChildren().addAll(upperBodyCard, lowerBodyCard);
         
         contentBox.getChildren().addAll(welcomeLabel, programMenu);
         return contentBox;
     }
 
-    private VBox createProgramMenuCard(String title, String description, String buttonText, Runnable onAction) {
+    private VBox createBodyChallengeCard(String title, String description, String buttonText, Runnable onAction) {
         VBox card = new VBox(5);
         card.setPadding(new Insets(5));
         card.setAlignment(Pos.CENTER);
@@ -180,62 +168,15 @@ public class DailyExerciseScene extends Template {
         // Set button action
         button.setOnAction(e -> onAction.run());
         
-        // Add hover effect to card
-        // card.setOnMouseEntered(e -> {
-        //     card.setStyle("-fx-background-color: #353b48; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: transparent; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);");
-        // });
-        
-        // card.setOnMouseExited(e -> {
-        //     card.setStyle("-fx-background-color: #2d3436; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: transparent; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
-        // });
-        
         card.getChildren().addAll(titleLabel, descLabel, button);
         return card;
     }
     
-    private void showExerciseProgram(String programType) {
-        ExerciseProgramScene programScene = new ExerciseProgramScene(mainApp, 800, 600, user, programType);
-        mainApp.getPrimaryStage().setScene(programScene.getScene());
+    private void showBodyChallenge(String challengeType) {
+        // Navigate to BodyChallengeScene with the specific challenge type
+        BodyChallengeScene challengeScene = new BodyChallengeScene(mainApp, 800, 600, user, challengeType);
+        mainApp.getPrimaryStage().setScene(challengeScene.getScene());
     }
-    
-    // @Override
-    // protected Button createButtonCard(String buttonText) {
-    //     Button button = new Button(buttonText);
-    //     button.setPrefWidth(100);
-    //     button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-    //             "-fx-text-fill: white; " +
-    //             "-fx-font-weight: bold; " +
-    //             "-fx-padding: 6px 14px; " +
-    //             "-fx-background-radius: 5px;");
-        
-    //     button.setOnMouseEntered(e -> {
-    //         button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); " +
-    //                 "-fx-text-fill: white; " +
-    //                 "-fx-font-weight: bold; " +
-    //                 "-fx-padding: 6px 14px; " +
-    //                 "-fx-background-radius: 5px;");
-    //     });
-        
-    //     button.setOnMouseExited(e -> {
-    //         button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-    //                 "-fx-text-fill: white; " +
-    //                 "-fx-font-weight: bold; " +
-    //                 "-fx-padding: 6px 14px; " +
-    //                 "-fx-background-radius: 5px;");
-    //     });
-        
-    //     return button;
-    // }
 
     public Scene getScene() {
         return scene;
