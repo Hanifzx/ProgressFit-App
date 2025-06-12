@@ -65,7 +65,11 @@ public class Main extends Application {
         primaryStage.setScene(bodyChallengeMenuScene.getScene());
     }
 
-
+    // Tambahkan method untuk ProgressTrackingScene
+    public void showProgressTrackingScene() {
+        ProgressTrackingScene progressTrackingScene = new ProgressTrackingScene(this, WIDTH, HEIGHT, user);
+        primaryStage.setScene(progressTrackingScene.getScene());
+    }
 
     public User getUser() {
         return user;

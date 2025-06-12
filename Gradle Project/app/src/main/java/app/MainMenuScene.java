@@ -14,6 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -62,6 +63,8 @@ public class MainMenuScene {
         // Main content
         VBox contentBox = new VBox(15);
         contentBox.setPadding(new Insets(20));
+        // Tambahkan VBox.setVgrow untuk memastikan contentBox dapat menggunakan ruang yang tersedia
+        VBox.setVgrow(contentBox, Priority.ALWAYS);
         
         // User stats
         HBox statsBox = new HBox(30);
@@ -110,11 +113,15 @@ public class MainMenuScene {
         menuTitle.setTextFill(Color.web("#dfe6e9"));
         // VBox.setMargin(menuTitle, new Insets(0, 0, 2, 0));
         
-        // Menu grid
+        // Menu grid - Hapus minHeight dan tambahkan VBox.setVgrow
         GridPane menuGrid = new GridPane();
         menuGrid.setHgap(15);
         menuGrid.setVgap(15);
-        menuGrid.setMinHeight(200); 
+        // Hapus setMinHeight yang menyebabkan constraint berlebihan
+        // menuGrid.setMinHeight(200); 
+        
+        // Tambahkan VBox.setVgrow untuk menuGrid agar bisa menggunakan ruang yang tersedia
+        VBox.setVgrow(menuGrid, Priority.ALWAYS);
         
         // Create menu cards
         VBox dailyExercCard = createMenuCard(
@@ -142,14 +149,8 @@ public class MainMenuScene {
         );
 
         Button progressButton = (Button) progressCard.getChildren().get(progressCard.getChildren().size() - 1);
-        // Tambahkan aksi ketika tombol ditekan
-        progressButton.setOnAction(e -> {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Informasi");
-            alert.setHeaderText(null);
-            alert.setContentText("Fitur belum tersedia. Masih dalam tahap pengembangan oleh developer.");
-            alert.showAndWait();
-        });
+        // Ganti aksi tombol untuk mengarah ke ProgressTrackingScene
+        progressButton.setOnAction(e -> mainApp.showProgressTrackingScene());
         
         VBox tipsCard = createMenuCard(
             "Tips & Panduan",
@@ -179,6 +180,13 @@ public class MainMenuScene {
         ColumnConstraints column2 = new ColumnConstraints();
         column2.setPercentWidth(50);
         menuGrid.getColumnConstraints().addAll(column1, column2);
+        
+        // Tambahkan row constraints untuk memastikan kedua baris mendapat ruang yang cukup
+        RowConstraints row1 = new RowConstraints();
+        row1.setVgrow(Priority.ALWAYS);
+        RowConstraints row2 = new RowConstraints();
+        row2.setVgrow(Priority.ALWAYS);
+        menuGrid.getRowConstraints().addAll(row1, row2);
         
         // Footer
         HBox footer = new HBox();
@@ -214,26 +222,6 @@ public class MainMenuScene {
                 "-fx-border-width: 1; " +
                 "-fx-border-radius: 5; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
-        
-        // Card hover effect
-        // card.setOnMouseEntered(e -> {
-        //     card.setStyle("-fx-background-color: #2d3436; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: #ff6b6b; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 0); " +
-        //             "-fx-translate-y: -2px;");
-        // });
-        
-        // card.setOnMouseExited(e -> {
-        //     card.setStyle("-fx-background-color: #2d3436; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: transparent; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
-        // });
         
         // Icon circle
         Circle iconCircle = new Circle(25);

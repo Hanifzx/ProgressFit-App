@@ -1,5 +1,8 @@
 package app;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
     private String name;
     private String gender;
@@ -9,8 +12,37 @@ public class User {
     private double bmi;
     private double bmr;
     private String bmiCategory;
+
+    // Map untuk menyimpan status selesai latihan harian (programType -> dayNumber -> isCompleted)
+    private Map<String, Map<Integer, Boolean>> dailyExerciseCompletion = new HashMap<>();
+
+    // Map untuk menyimpan status selesai tantangan fokus tubuh (challengeType -> weekNumber -> isCompleted)
+    private Map<String, Map<Integer, Boolean>> bodyChallengeCompletion = new HashMap<>();
     
     public User() {
+        // Initialize completion maps for various program and challenge types
+        // This ensures the maps are not null and ready to be populated.
+        // For daily exercises, assumed types are "weight_gain", "weight_loss", "stamina"
+        dailyExerciseCompletion.put("weight_gain", new HashMap<>());
+        dailyExerciseCompletion.put("weight_loss", new HashMap<>());
+        dailyExerciseCompletion.put("stamina", new HashMap<>());
+
+        // For body challenges, assumed types are "upper_body", "lower_body"
+        bodyChallengeCompletion.put("upper_body", new HashMap<>());
+        bodyChallengeCompletion.put("lower_body", new HashMap<>());
+
+        // Initialize default completion status (false) for each day/week if not already present
+        // This helps in preventing NullPointerExceptions when checking status for new days/weeks
+        for (String type : dailyExerciseCompletion.keySet()) {
+            for (int i = 1; i <= 6; i++) { // Asumsi 6 hari latihan harian
+                dailyExerciseCompletion.get(type).put(i, false);
+            }
+        }
+        for (String type : bodyChallengeCompletion.keySet()) {
+            for (int i = 1; i <= 4; i++) { // Asumsi 4 minggu tantangan
+                bodyChallengeCompletion.get(type).put(i, false);
+            }
+        }
     }
     
     public void calculateBMI() {
@@ -91,5 +123,35 @@ public class User {
     
     public String getBmiCategory() {
         return bmiCategory;
+    }
+
+    // Metode untuk mengatur status selesai latihan harian
+    public void setDailyExerciseDayCompleted(String programType, int day, boolean completed) {
+        dailyExerciseCompletion.computeIfAbsent(programType, k -> new HashMap<>()).put(day, completed);
+    }
+
+    // Metode untuk memeriksa status selesai latihan harian
+    public boolean isDailyExerciseDayCompleted(String programType, int day) {
+        return dailyExerciseCompletion.getOrDefault(programType, new HashMap<>()).getOrDefault(day, false);
+    }
+
+    // Metode untuk mendapatkan semua status selesai latihan harian
+    public Map<String, Map<Integer, Boolean>> getDailyExerciseCompletion() {
+        return dailyExerciseCompletion;
+    }
+
+    // Metode untuk mengatur status selesai tantangan fokus tubuh
+    public void setChallengeWeekCompleted(String challengeType, int week, boolean completed) {
+        bodyChallengeCompletion.computeIfAbsent(challengeType, k -> new HashMap<>()).put(week, completed);
+    }
+
+    // Metode untuk memeriksa status selesai tantangan fokus tubuh
+    public boolean isChallengeWeekCompleted(String challengeType, int week) {
+        return bodyChallengeCompletion.getOrDefault(challengeType, new HashMap<>()).getOrDefault(week, false);
+    }
+
+    // Metode untuk mendapatkan semua status selesai tantangan fokus tubuh
+    public Map<String, Map<Integer, Boolean>> getBodyChallengeCompletion() {
+        return bodyChallengeCompletion;
     }
 }
