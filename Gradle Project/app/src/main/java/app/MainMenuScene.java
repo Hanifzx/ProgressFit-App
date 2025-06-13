@@ -142,7 +142,7 @@ public class MainMenuScene {
         header.setSpacing(10);
         header.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376);");
         
-        Label headerTitle = new Label("Home Workout");
+        Label headerTitle = new Label("ProgressFit");
         headerTitle.setFont(Font.font("System", FontWeight.BOLD, 20));
         headerTitle.setTextFill(Color.WHITE);
         

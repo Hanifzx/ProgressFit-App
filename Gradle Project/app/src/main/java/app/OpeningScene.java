@@ -55,7 +55,7 @@ public class OpeningScene {
         // --- AKHIR PERUBAHAN ---
 
         // App title
-        Label titleLabel = new Label("HOME WORKOUT");
+        Label titleLabel = new Label("PROGRESS FIT");
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 28));
         titleLabel.setTextFill(Color.WHITE);
 
