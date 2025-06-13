@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -98,9 +100,17 @@ public class ProgressTrackingScene extends Template {
         Label userNameLabel = new Label(user.getName());
         userNameLabel.setFont(Font.font("System", FontWeight.NORMAL, 13));
         userNameLabel.setTextFill(Color.WHITE);
-        Circle userIcon = new Circle(15, Color.web("#ff6b6b"));
         
-        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIcon);
+        // --- PERUBAHAN UTAMA DI SINI ---
+        Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
+        ImageView userIconView = new ImageView(userIconImage);
+        userIconView.setFitHeight(30);
+        userIconView.setFitWidth(30);
+        
+        Circle clip = new Circle(15, 15, 15);
+        userIconView.setClip(clip);
+        
+        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIconView);
         return header;
     }
     

@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -35,35 +37,12 @@ public class MainMenuScene {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1e272e;");
         
-        // Create header
-        HBox header = new HBox();
-        header.setPadding(new Insets(15));
-        header.setAlignment(Pos.CENTER_LEFT);
-        header.setSpacing(10);
-        header.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376);");
-        
-        Label headerTitle = new Label("Home Workout");
-        headerTitle.setFont(Font.font("System", FontWeight.BOLD, 20));
-        headerTitle.setTextFill(Color.WHITE);
-        
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        
-        // User info in header
-        Label userNameLabel = new Label(user.getName());
-        userNameLabel.setFont(Font.font("System", 13));
-
-        userNameLabel.setTextFill(Color.WHITE);
-        
-        Circle userIcon = new Circle(15);
-        userIcon.setFill(Color.web("#ff6b6b"));
-        
-        header.getChildren().addAll(headerTitle, spacer, userNameLabel, userIcon);
+        // Create and set the header
+        root.setTop(createHeader());
         
         // Main content
         VBox contentBox = new VBox(15);
         contentBox.setPadding(new Insets(20));
-        // Tambahkan VBox.setVgrow untuk memastikan contentBox dapat menggunakan ruang yang tersedia
         VBox.setVgrow(contentBox, Priority.ALWAYS);
         
         // User stats
@@ -111,56 +90,25 @@ public class MainMenuScene {
         Label menuTitle = new Label("Menu Utama");
         menuTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
         menuTitle.setTextFill(Color.web("#dfe6e9"));
-        // VBox.setMargin(menuTitle, new Insets(0, 0, 2, 0));
         
-        // Menu grid - Hapus minHeight dan tambahkan VBox.setVgrow
+        // Menu grid
         GridPane menuGrid = new GridPane();
         menuGrid.setHgap(15);
         menuGrid.setVgap(15);
-        // Hapus setMinHeight yang menyebabkan constraint berlebihan
-        // menuGrid.setMinHeight(200); 
-        
-        // Tambahkan VBox.setVgrow untuk menuGrid agar bisa menggunakan ruang yang tersedia
         VBox.setVgrow(menuGrid, Priority.ALWAYS);
         
         // Create menu cards
-        VBox dailyExercCard = createMenuCard(
-            "Latihan Harian",
-            "Lihat jadwal dan program latihan sesuai kebutuhan Anda",
-            "Pilih"
-        );
-        // Find the button in the dailyExercCard and add an action
-        Button programButton = (Button) dailyExercCard.getChildren().get(dailyExercCard.getChildren().size() - 1);
-        programButton.setOnAction(e -> mainApp.showDailyExerciseScene());
+        VBox dailyExercCard = createMenuCard("Latihan Harian", "Lihat jadwal dan program latihan sesuai kebutuhan Anda", "Pilih");
+        dailyExercCard.lookup("Button").setOnMouseClicked(e -> mainApp.showDailyExerciseScene());
 
-        VBox bodyFocusCard = createMenuCard(
-            "Tantangan Fokus Tubuh",
-            "Tantangan khusus untuk melatih bagian tubuh tertentu",
-            "Mulai"
-        );
-        // Find the button in the bodyFocusCard and add an action
-        Button bodyFocusButton = (Button) bodyFocusCard.getChildren().get(bodyFocusCard.getChildren().size() - 1);
-        bodyFocusButton.setOnAction(e -> mainApp.showBodyChallengeMenuScene());
+        VBox bodyFocusCard = createMenuCard("Tantangan Fokus Tubuh", "Tantangan khusus untuk melatih bagian tubuh tertentu", "Mulai");
+        bodyFocusCard.lookup("Button").setOnMouseClicked(e -> mainApp.showBodyChallengeMenuScene());
         
-        VBox progressCard = createMenuCard(
-            "Progres Latihan",
-            "Lihat perkembangan latihan anda",
-            "Lihat"
-        );
-
-        Button progressButton = (Button) progressCard.getChildren().get(progressCard.getChildren().size() - 1);
-        // Ganti aksi tombol untuk mengarah ke ProgressTrackingScene
-        progressButton.setOnAction(e -> mainApp.showProgressTrackingScene());
+        VBox progressCard = createMenuCard("Progres Latihan", "Lihat perkembangan latihan anda", "Lihat");
+        progressCard.lookup("Button").setOnMouseClicked(e -> mainApp.showProgressTrackingScene());
         
-        VBox tipsCard = createMenuCard(
-            "Tips & Panduan",
-            "Dapatkan tips dan panduan latihan",
-            "Baca"
-        );
-
-        Button tipsButton = (Button) tipsCard.getChildren().get(tipsCard.getChildren().size() - 1);
-        // Tambahkan aksi ketika tombol ditekan
-        tipsButton.setOnAction(e -> {
+        VBox tipsCard = createMenuCard("Tips & Panduan", "Dapatkan tips dan panduan latihan", "Baca");
+        tipsCard.lookup("Button").setOnMouseClicked(e -> {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Informasi");
             alert.setHeaderText(null);
@@ -181,7 +129,6 @@ public class MainMenuScene {
         column2.setPercentWidth(50);
         menuGrid.getColumnConstraints().addAll(column1, column2);
         
-        // Tambahkan row constraints untuk memastikan kedua baris mendapat ruang yang cukup
         RowConstraints row1 = new RowConstraints();
         row1.setVgrow(Priority.ALWAYS);
         RowConstraints row2 = new RowConstraints();
@@ -192,24 +139,57 @@ public class MainMenuScene {
         HBox footer = new HBox();
         footer.setAlignment(Pos.CENTER);
         footer.setPadding(new Insets(20, 0, 20, 0));
-        
         Label footerLabel = new Label("© 2025 Group 16 - Home Workout App | Beta Version");
         footerLabel.setTextFill(Color.web("#636e72"));
-        
         footer.getChildren().add(footerLabel);
         
-        // Add all to content box
         contentBox.getChildren().addAll(statsBox, menuTitle, menuGrid);
         
-        // Add to root
-        root.setTop(header);
         root.setCenter(contentBox);
         root.setBottom(footer);
         
-        // Create scene
         scene = new Scene(root, width, height);
     }
     
+    private HBox createHeader() {
+        HBox header = new HBox();
+        header.setPadding(new Insets(15));
+        header.setAlignment(Pos.CENTER_LEFT);
+        header.setSpacing(10);
+        header.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376);");
+        
+        Label headerTitle = new Label("Home Workout");
+        headerTitle.setFont(Font.font("System", FontWeight.BOLD, 20));
+        headerTitle.setTextFill(Color.WHITE);
+        
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        
+        Label userNameLabel = new Label(user.getName());
+        userNameLabel.setFont(Font.font("System", 13));
+        userNameLabel.setTextFill(Color.WHITE);
+        
+        // --- PERUBAHAN UTAMA DI SINI ---
+        // 1. Muat gambar dari file user-icon.png
+        Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
+        ImageView userIconView = new ImageView(userIconImage);
+        
+        // 2. Atur ukuran ikon
+        userIconView.setFitHeight(30);
+        userIconView.setFitWidth(30);
+        
+        // 3. Buat ikon menjadi bundar (opsional, tapi terlihat bagus)
+        Circle clip = new Circle(15); // Radius adalah setengah dari ukuran ikon
+        clip.setCenterX(15);
+        clip.setCenterY(15);
+        userIconView.setClip(clip);
+        
+        // 4. Tambahkan ImageView ke header, bukan Circle lama
+        header.getChildren().addAll(headerTitle, spacer, userNameLabel, userIconView);
+        
+        return header;
+    }
+
     private VBox createMenuCard(String title, String description, String buttonText) {
         VBox card = new VBox(5);
         card.setPadding(new Insets(15));
@@ -218,27 +198,20 @@ public class MainMenuScene {
         card.setMinHeight(180);  
         card.setStyle("-fx-background-color: #2d3436; " +
                 "-fx-background-radius: 5; " +
-                "-fx-border-color: transparent; " +
-                "-fx-border-width: 1; " +
-                "-fx-border-radius: 5; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
         
-        // Icon circle
         Circle iconCircle = new Circle(25);
         iconCircle.setFill(Color.web("rgba(255, 107, 107, 0.15)"));
         
-        // Title
         Label titleLabel = new Label(title);
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
         titleLabel.setTextFill(Color.web("#dfe6e9"));
         
-        // Description
         Label descLabel = new Label(description);
         descLabel.setTextFill(Color.web("#a0aec0"));
         descLabel.setWrapText(true);
         descLabel.setAlignment(Pos.CENTER);
         
-        // Button
         Button button = new Button(buttonText);
         button.setPrefWidth(150);
         button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
@@ -247,21 +220,8 @@ public class MainMenuScene {
                 "-fx-padding: 6px 14px; " +
                 "-fx-background-radius: 5px;");
         
-        button.setOnMouseEntered(e -> {
-            button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-padding: 6px 14px; " +
-                    "-fx-background-radius: 5px;");
-        });
-        
-        button.setOnMouseExited(e -> {
-            button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-padding: 6px 14px; " +
-                    "-fx-background-radius: 5px;");
-        });
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-background-radius: 5px;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-background-radius: 5px;"));
         
         card.getChildren().addAll(iconCircle, titleLabel, descLabel, button);
         return card;

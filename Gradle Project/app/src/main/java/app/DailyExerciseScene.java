@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -30,14 +32,13 @@ public class DailyExerciseScene extends Template {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1e272e;");
         
-        // Create header
-        HBox header = createHeader();
+        // Create and set header
+        root.setTop(createHeader());
         
         // Create main content
         VBox mainContent = createMainContent();
         
         // Add components to root
-        root.setTop(header);
         root.setCenter(mainContent);
         
         // Create scene with root
@@ -62,15 +63,27 @@ public class DailyExerciseScene extends Template {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        // User info in header
         Label userNameLabel = new Label(user.getName());
         userNameLabel.setFont(Font.font("System", 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        Circle userIcon = new Circle(15);
-        userIcon.setFill(Color.web("#ff6b6b"));
+        // --- PERUBAHAN UTAMA DI SINI ---
+        // 1. Muat gambar dari file user-icon.png
+        Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
+        ImageView userIconView = new ImageView(userIconImage);
         
-        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIcon);
+        // 2. Atur ukuran ikon
+        userIconView.setFitHeight(30);
+        userIconView.setFitWidth(30);
+        
+        // 3. Buat ikon menjadi bundar
+        Circle clip = new Circle(15);
+        clip.setCenterX(15);
+        clip.setCenterY(15);
+        userIconView.setClip(clip);
+        
+        // 4. Tambahkan ImageView ke header
+        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIconView);
         return header;
     }
     
@@ -79,125 +92,55 @@ public class DailyExerciseScene extends Template {
         contentBox.setPadding(new Insets(0, 20, 0, 20));
         contentBox.setAlignment(Pos.CENTER);
         
-        // Welcome message
         Label welcomeLabel = new Label("Pilih Program Latihan Sesuai Tujuan dan Kebutuhan Anda");
         welcomeLabel.setFont(Font.font("System", FontWeight.BOLD, 18));
         welcomeLabel.setTextFill(Color.web("#dfe6e9"));
         
-        // Create exercise program buttons - Changed to VBox
-        VBox programMenu = new VBox(15); // 15 spacing between items
-        programMenu.setAlignment(Pos.CENTER); // Center alignment
+        VBox programMenu = new VBox(15);
+        programMenu.setAlignment(Pos.CENTER);
         programMenu.setMaxWidth(400);
         
-        // Weight gain program
-        VBox weightGainCard2 = createProgramMenuCard(
-            "Menambah Berat Badan",
-            "Program latihan untuk menambah massa otot dan berat badan",
-            "Pilih",
-            () -> showExerciseProgram("weight_gain")
-        );
+        VBox weightGainCard = createProgramMenuCard("Menambah Berat Badan", "Program latihan untuk menambah massa otot dan berat badan", "Pilih", () -> showExerciseProgram("weight_gain"));
+        VBox weightLossCard = createProgramMenuCard("Menurunkan Berat Badan", "Program latihan kardio dan HIIT untuk membakar lemak", "Pilih", () -> showExerciseProgram("weight_loss"));
+        VBox staminaCard = createProgramMenuCard("Menjaga Stamina", "Program latihan untuk meningkatkan daya tahan tubuh", "Pilih", () -> showExerciseProgram("stamina"));
         
-        // Weight loss program
-        VBox weightLossCard2 = createProgramMenuCard(
-            "Menurunkan Berat Badan",
-            "Program latihan kardio dan HIIT untuk membakar lemak",
-            "Pilih",
-            () -> showExerciseProgram("weight_loss")
-        );
+        weightGainCard.setMaxWidth(350);
+        weightGainCard.setPrefWidth(350);
+        weightLossCard.setMaxWidth(350);
+        weightLossCard.setPrefWidth(350);
+        staminaCard.setMaxWidth(350);
+        staminaCard.setPrefWidth(350);
         
-        // Stamina program
-        VBox staminaCard2 = createProgramMenuCard(
-            "Menjaga Stamina",
-            "Program latihan untuk meningkatkan daya tahan tubuh",
-            "Pilih",
-            () -> showExerciseProgram("stamina")
-        );
-        
-        // Set consistent width for all cards
-        weightGainCard2.setMaxWidth(350);
-        weightGainCard2.setPrefWidth(350);
-        weightLossCard2.setMaxWidth(350);
-        weightLossCard2.setPrefWidth(350);
-        staminaCard2.setMaxWidth(350);
-        staminaCard2.setPrefWidth(350);
-        
-        // Add cards to VBox
-        programMenu.getChildren().addAll(weightGainCard2, weightLossCard2, staminaCard2);
-        
+        programMenu.getChildren().addAll(weightGainCard, weightLossCard, staminaCard);
         contentBox.getChildren().addAll(welcomeLabel, programMenu);
         return contentBox;
     }
 
     private VBox createProgramMenuCard(String title, String description, String buttonText, Runnable onAction) {
         VBox card = new VBox(5);
-        card.setPadding(new Insets(5));
+        card.setPadding(new Insets(15));
         card.setAlignment(Pos.CENTER);
         card.setPrefHeight(150); 
         card.setMinHeight(150);  
-        card.setStyle("-fx-background-color: #2d3436; " +
-                "-fx-background-radius: 5; " +
-                "-fx-border-color: transparent; " +
-                "-fx-border-width: 1; " +
-                "-fx-border-radius: 5; " +
-                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
+        card.setStyle("-fx-background-color: #2d3436; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
         
-        // Title
         Label titleLabel = new Label(title);
         titleLabel.setFont(Font.font("System", FontWeight.BOLD, 16));
         titleLabel.setTextFill(Color.web("#dfe6e9"));
         
-        // Description
         Label descLabel = new Label(description);
         descLabel.setTextFill(Color.web("#a0aec0"));
         descLabel.setWrapText(true);
         descLabel.setAlignment(Pos.CENTER);
         
-        // Button
         Button button = new Button(buttonText);
         button.setPrefWidth(150);
-        button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-                "-fx-text-fill: white; " +
-                "-fx-font-weight: bold; " +
-                "-fx-padding: 6px 14px; " +
-                "-fx-background-radius: 5px;");
+        button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-background-radius: 5px;");
         
-        button.setOnMouseEntered(e -> {
-            button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-padding: 6px 14px; " +
-                    "-fx-background-radius: 5px;");
-        });
+        button.setOnMouseEntered(e -> button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-background-radius: 5px;"));
+        button.setOnMouseExited(e -> button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 6px 14px; -fx-background-radius: 5px;"));
         
-        button.setOnMouseExited(e -> {
-            button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-padding: 6px 14px; " +
-                    "-fx-background-radius: 5px;");
-        });
-        
-        // Set button action
         button.setOnAction(e -> onAction.run());
-        
-        // Add hover effect to card
-        // card.setOnMouseEntered(e -> {
-        //     card.setStyle("-fx-background-color: #353b48; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: transparent; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 8, 0, 0, 2);");
-        // });
-        
-        // card.setOnMouseExited(e -> {
-        //     card.setStyle("-fx-background-color: #2d3436; " +
-        //             "-fx-background-radius: 5; " +
-        //             "-fx-border-color: transparent; " +
-        //             "-fx-border-width: 1; " +
-        //             "-fx-border-radius: 5; " +
-        //             "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
-        // });
         
         card.getChildren().addAll(titleLabel, descLabel, button);
         return card;
@@ -207,35 +150,6 @@ public class DailyExerciseScene extends Template {
         ExerciseProgramScene programScene = new ExerciseProgramScene(mainApp, 800, 600, user, programType);
         mainApp.getPrimaryStage().setScene(programScene.getScene());
     }
-    
-    // @Override
-    // protected Button createButtonCard(String buttonText) {
-    //     Button button = new Button(buttonText);
-    //     button.setPrefWidth(100);
-    //     button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-    //             "-fx-text-fill: white; " +
-    //             "-fx-font-weight: bold; " +
-    //             "-fx-padding: 6px 14px; " +
-    //             "-fx-background-radius: 5px;");
-        
-    //     button.setOnMouseEntered(e -> {
-    //         button.setStyle("-fx-background-color: linear-gradient(to right, #1a3a4a, #3d3560); " +
-    //                 "-fx-text-fill: white; " +
-    //                 "-fx-font-weight: bold; " +
-    //                 "-fx-padding: 6px 14px; " +
-    //                 "-fx-background-radius: 5px;");
-    //     });
-        
-    //     button.setOnMouseExited(e -> {
-    //         button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-    //                 "-fx-text-fill: white; " +
-    //                 "-fx-font-weight: bold; " +
-    //                 "-fx-padding: 6px 14px; " +
-    //                 "-fx-background-radius: 5px;");
-    //     });
-        
-    //     return button;
-    // }
 
     public Scene getScene() {
         return scene;

@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -41,31 +43,19 @@ public class BodyChallengeScene extends Template {
         this.exerciseKatalog = new ExerciseKatalog();
         this.challengeType = challengeType;
         
-        // Set challenge title and get base exercises based on challenge type
         initializeChallengeData();
         
-        // Create root container dengan ukuran terbatas
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1e272e;");
         
-        // PENTING: Set ukuran maksimum untuk root
         root.setPrefSize(width, height);
         root.setMaxSize(width, height);
         
-        // Create header
-        HBox header = createHeader();
+        root.setTop(createHeader());
+        root.setCenter(createMainContent());
         
-        // Create main content with sidebar and exercise list
-        HBox mainContent = createMainContent();
-        
-        // Add components to root
-        root.setTop(header);
-        root.setCenter(mainContent);
-        
-        // Create scene dengan ukuran eksplisit
         scene = new Scene(root, width, height);
         
-        // Load initial week (Week 1)
         loadExercisesForWeek(1);
     }
     
@@ -103,15 +93,20 @@ public class BodyChallengeScene extends Template {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        // User info in header
         Label userNameLabel = new Label(user.getName());
         userNameLabel.setFont(Font.font("System", 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        Circle userIcon = new Circle(15);
-        userIcon.setFill(Color.web("#ff6b6b"));
+        // --- PERUBAHAN UTAMA DI SINI ---
+        Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
+        ImageView userIconView = new ImageView(userIconImage);
+        userIconView.setFitHeight(30);
+        userIconView.setFitWidth(30);
         
-        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIcon);
+        Circle clip = new Circle(15, 15, 15);
+        userIconView.setClip(clip);
+        
+        header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIconView);
         return header;
     }
     
@@ -119,13 +114,9 @@ public class BodyChallengeScene extends Template {
         HBox mainContent = new HBox();
         mainContent.setSpacing(0);
         
-        // Create sidebar
         sidebar = createSidebar();
-        
-        // Create exercise list container
         VBox exerciseSection = createExerciseSection();
         
-        // Set sizing
         sidebar.setPrefWidth(200);
         sidebar.setMinWidth(200);
         sidebar.setMaxWidth(200);
@@ -142,20 +133,17 @@ public class BodyChallengeScene extends Template {
         sidebar.setPrefWidth(200);
         sidebar.setPadding(new Insets(20, 0, 20, 0));
         
-        // Sidebar title
         Label sidebarTitle = new Label("Minggu Challenge");
         sidebarTitle.setFont(Font.font("System", FontWeight.BOLD, 16));
         sidebarTitle.setTextFill(Color.web("#dfe6e9"));
         sidebarTitle.setPadding(new Insets(0, 0, 15, 20));
         
-        // Create week buttons
         VBox weekButtons = new VBox(5);
         for (int i = 1; i <= 4; i++) {
             Button weekButton = createWeekButton(i);
             weekButtons.getChildren().add(weekButton);
         }
         
-        // Add challenge info
         VBox challengeInfo = createChallengeInfo();
         
         sidebar.getChildren().addAll(sidebarTitle, weekButtons, challengeInfo);
@@ -169,7 +157,6 @@ public class BodyChallengeScene extends Template {
         weekButton.setAlignment(Pos.CENTER_LEFT);
         weekButton.setPadding(new Insets(0, 0, 0, 20));
         
-        // Set initial style
         updateWeekButtonStyle(weekButton, week == currentWeek);
         
         weekButton.setOnAction(e -> {
@@ -182,45 +169,29 @@ public class BodyChallengeScene extends Template {
     }
     
     private void updateWeekButtonStyle(Button button, boolean isSelected) {
+        String baseStyle = "-fx-background-radius: 0; -fx-border-color: transparent;";
         if (isSelected) {
-            button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); " +
-                    "-fx-text-fill: white; " +
-                    "-fx-font-weight: bold; " +
-                    "-fx-background-radius: 0; " +
-                    "-fx-border-color: transparent;");
+            button.setStyle("-fx-background-color: linear-gradient(to right, #2b5876, #4e4376); -fx-text-fill: white; -fx-font-weight: bold; " + baseStyle);
         } else {
-            button.setStyle("-fx-background-color: transparent; " +
-                    "-fx-text-fill: #a0aec0; " +
-                    "-fx-font-weight: normal; " +
-                    "-fx-background-radius: 0; " +
-                    "-fx-border-color: transparent;");
+            button.setStyle("-fx-background-color: transparent; -fx-text-fill: #a0aec0; -fx-font-weight: normal; " + baseStyle);
         }
         
         button.setOnMouseEntered(e -> {
             if (!isSelected) {
-                button.setStyle("-fx-background-color: #636e72; " +
-                        "-fx-text-fill: white; " +
-                        "-fx-font-weight: normal; " +
-                        "-fx-background-radius: 0; " +
-                        "-fx-border-color: transparent;");
+                button.setStyle("-fx-background-color: #636e72; -fx-text-fill: white; -fx-font-weight: normal; " + baseStyle);
             }
         });
         
-        button.setOnMouseExited(e -> {
-            updateWeekButtonStyle(button, isSelected);
-        });
+        button.setOnMouseExited(e -> updateWeekButtonStyle(button, isSelected));
     }
     
     private VBox createChallengeInfo() {
         VBox infoBox = new VBox(10);
         infoBox.setPadding(new Insets(20, 20, 0, 20));
         
-        // Challenge info card
         VBox infoCard = new VBox(8);
         infoCard.setPadding(new Insets(15));
-        infoCard.setStyle("-fx-background-color: #353b48; " +
-                "-fx-background-radius: 8; " +
-                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);");
+        infoCard.setStyle("-fx-background-color: #353b48; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);");
         
         Label infoTitle = new Label("Info Challenge");
         infoTitle.setFont(Font.font("System", FontWeight.BOLD, 14));
@@ -246,7 +217,6 @@ public class BodyChallengeScene extends Template {
     }
     
     private void updateSidebarSelection() {
-        // Update all week buttons
         VBox weekButtons = (VBox) sidebar.getChildren().get(1);
         for (int i = 0; i < weekButtons.getChildren().size(); i++) {
             Button weekButton = (Button) weekButtons.getChildren().get(i);
@@ -259,16 +229,13 @@ public class BodyChallengeScene extends Template {
         exerciseSection.setStyle("-fx-background-color: #1e272e;");
         exerciseSection.setPadding(new Insets(20));
         
-        // Week title
         weekTitleLabel = new Label("Minggu 1 - " + challengeTitle);
         weekTitleLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
         weekTitleLabel.setTextFill(Color.web("#dfe6e9"));
         weekTitleLabel.setPadding(new Insets(0, 0, 20, 0));
         
-        // Exercise list container
         exerciseListContainer = new VBox(10);
         
-        // Scroll pane for exercises
         ScrollPane scrollPane = new ScrollPane(exerciseListContainer);
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: #1e272e; -fx-background-color: #1e272e;");
@@ -280,20 +247,9 @@ public class BodyChallengeScene extends Template {
     }
     
     private void loadExercisesForWeek(int week) {
-        // Update week title
         weekTitleLabel.setText("Minggu " + week + " - " + challengeTitle);
-        
-        // Get exercises for this week
         List<Exercise> weekExercises = getExercisesForWeek(week);
-        
-        // Clear existing exercises
         exerciseListContainer.getChildren().clear();
-        
-        // Add week description
-        // Label weekDescription = createWeekDescription(week);
-        // exerciseListContainer.getChildren().add(weekDescription);
-        
-        // Add exercises to container
         for (int i = 0; i < weekExercises.size(); i++) {
             Exercise exercise = weekExercises.get(i);
             HBox exerciseItem = createExerciseItem(i + 1, exercise, week);
@@ -301,49 +257,19 @@ public class BodyChallengeScene extends Template {
         }
     }
     
-    // private Label createWeekDescription(int week) {
-    //     String description = "";
-    //     switch (week) {
-    //         case 1:
-    //             description = "🚀 Minggu Pertama - Fokus pada teknik dasar dan membangun fondasi kekuatan";
-    //             break;
-    //         case 2:
-    //             description = "💪 Minggu Kedua - Meningkatkan intensitas dan repetisi latihan";
-    //             break;
-    //         case 3:
-    //             description = "🔥 Minggu Ketiga - Tantangan yang lebih besar dengan variasi gerakan";
-    //             break;
-    //         case 4:
-    //             description = "🏆 Minggu Keempat - Uji kemampuan maksimal dan evaluasi progress";
-    //             break;
-    //     }
-        
-    //     Label descLabel = new Label(description);
-    //     descLabel.setFont(Font.font("System", FontWeight.BOLD, 14));
-    //     descLabel.setTextFill(Color.web("#4CAF50"));
-    //     descLabel.setPadding(new Insets(0, 0, 15, 0));
-    //     descLabel.setWrapText(true);
-        
-    //     return descLabel;
-    // }
-    
     private List<Exercise> getExercisesForWeek(int week) {
         List<Exercise> weekExercises = new ArrayList<>();
-        
-        // Adjust exercises based on week progression
         for (Exercise baseExercise : baseExercises) {
             String adjustedSets = adjustSetsForWeek(baseExercise.getSets(), week);
             Exercise adjustedExercise = new Exercise(baseExercise.getName(), adjustedSets);
             weekExercises.add(adjustedExercise);
         }
         
-        // Shuffle for variety except week 1
         if (week > 1) {
             Collections.shuffle(weekExercises);
         }
         
-        // Limit exercises based on week
-        int maxExercises = Math.min(8 + week, 12); // Week 1: 9 exercises, Week 4: 12 exercises
+        int maxExercises = Math.min(8 + week, 12);
         if (weekExercises.size() > maxExercises) {
             weekExercises = weekExercises.subList(0, maxExercises);
         }
@@ -352,50 +278,35 @@ public class BodyChallengeScene extends Template {
     }
     
     private String adjustSetsForWeek(String originalSets, int week) {
-        // Progressively increase difficulty each week
         if (originalSets.contains("repetisi")) {
-            // For repetition-based exercises
             String[] parts = originalSets.split(" ");
             if (parts.length >= 4) {
                 try {
                     int sets = Integer.parseInt(parts[0]);
                     int reps = Integer.parseInt(parts[3]);
-                    
-                    // Increase reps by 2 each week
                     int newReps = reps + (2 * (week - 1));
                     return sets + " set x " + newReps + " repetisi";
-                } catch (NumberFormatException e) {
-                    return originalSets;
-                }
+                } catch (NumberFormatException e) { /* return original */ }
             }
         } else if (originalSets.contains("detik")) {
-            // For time-based exercises
             String[] parts = originalSets.split(" ");
             if (parts.length >= 2) {
                 try {
                     int seconds = Integer.parseInt(parts[0]);
-                    // Increase time by 10 seconds each week
                     int newSeconds = seconds + (10 * (week - 1));
                     return newSeconds + " detik";
-                } catch (NumberFormatException e) {
-                    return originalSets;
-                }
+                } catch (NumberFormatException e) { /* return original */ }
             }
         } else if (originalSets.contains("menit")) {
-            // For minute-based exercises
             String[] parts = originalSets.split(" ");
             if (parts.length >= 2) {
                 try {
                     int minutes = Integer.parseInt(parts[0]);
-                    // Increase time by 5 minutes each week
                     int newMinutes = minutes + (5 * (week - 1));
                     return newMinutes + " menit";
-                } catch (NumberFormatException e) {
-                    return originalSets;
-                }
+                } catch (NumberFormatException e) { /* return original */ }
             }
         }
-        
         return originalSets;
     }
     
@@ -403,21 +314,14 @@ public class BodyChallengeScene extends Template {
         HBox item = new HBox(15);
         item.setPadding(new Insets(15));
         item.setAlignment(Pos.CENTER_LEFT);
-        item.setStyle("-fx-background-color: #2d3436; " +
-                "-fx-background-radius: 8; " +
-                "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);");
+        item.setStyle("-fx-background-color: #2d3436; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);");
         
-        // Number circle with week-based color
-        Circle numberCircle = new Circle(18);
-        numberCircle.setFill(Color.web("#4CAF50"));
-        
+        Circle numberCircle = new Circle(18, Color.web("#4CAF50"));
         Label numberLabel = new Label(String.valueOf(number));
         numberLabel.setTextFill(Color.WHITE);
         numberLabel.setFont(Font.font("System", FontWeight.BOLD, 12));
         
-        // Exercise info
         VBox exerciseInfo = new VBox(4);
-        
         Label exerciseName = new Label(exercise.getName());
         exerciseName.setFont(Font.font("System", FontWeight.BOLD, 16));
         exerciseName.setTextFill(Color.web("#dfe6e9"));
@@ -426,56 +330,21 @@ public class BodyChallengeScene extends Template {
         exerciseSets.setTextFill(Color.web("#a0aec0"));
         exerciseSets.setFont(Font.font("System", 13));
         
-        // Difficulty indicator
-        // Label difficultyLabel = new Label(getDifficultyText(week));
-        // difficultyLabel.setTextFill(Color.web(circleColor));
-        // difficultyLabel.setFont(Font.font("System", FontWeight.BOLD, 11));
-        
         exerciseInfo.getChildren().addAll(exerciseName, exerciseSets);
         
-        // Create a container for the circle and number
-        VBox circleContainer = new VBox();
+        VBox circleContainer = new VBox(numberCircle, numberLabel);
         circleContainer.setAlignment(Pos.CENTER);
-        circleContainer.getChildren().addAll(numberCircle, numberLabel);
-        numberLabel.setTranslateY(-31); // Position number over circle
+        numberLabel.setTranslateY(-31);
         
         item.getChildren().addAll(circleContainer, exerciseInfo);
         
-        // Add hover effect
-        item.setOnMouseEntered(e -> {
-            item.setStyle("-fx-background-color: #353b48; " +
-                    "-fx-background-radius: 8; " +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);");
-        });
-        
-        item.setOnMouseExited(e -> {
-            item.setStyle("-fx-background-color: #2d3436; " +
-                    "-fx-background-radius: 8; " +
-                    "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);");
-        });
+        String baseStyle = "-fx-background-color: #2d3436; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);";
+        String hoverStyle = "-fx-background-color: #353b48; -fx-background-radius: 8; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);";
+        item.setOnMouseEntered(e -> item.setStyle(hoverStyle));
+        item.setOnMouseExited(e -> item.setStyle(baseStyle));
         
         return item;
     }
-    
-    // private String getWeekColor(int week) {
-    //     switch (week) {
-    //         case 1: return "#4CAF50"; // Green
-    //         case 2: return "#2196F3"; // Blue
-    //         case 3: return "#FF9800"; // Orange
-    //         case 4: return "#F44336"; // Red
-    //         default: return "#4CAF50";
-    //     }
-    // }
-    
-    // private String getDifficultyText(int week) {
-    //     switch (week) {
-    //         case 1: return "• Pemula";
-    //         case 2: return "•• Menengah";
-    //         case 3: return "••• Lanjutan";
-    //         case 4: return "•••• Expert";
-    //         default: return "• Pemula";
-    //     }
-    // }
 
     public Scene getScene() {
         return scene;
