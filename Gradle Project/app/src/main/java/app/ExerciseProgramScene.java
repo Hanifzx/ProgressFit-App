@@ -256,9 +256,7 @@ public class ExerciseProgramScene extends Template {
     
     private List<Exercise> getExercisesForDay(int day) {
         List<Exercise> dayExercises = new ArrayList<>(baseExercises);
-        if (day > 1) {
-            Collections.shuffle(dayExercises);
-        }
+        Collections.shuffle(dayExercises);
         
         return dayExercises.size() > 10 ? dayExercises.subList(0, 10) : dayExercises;
     }

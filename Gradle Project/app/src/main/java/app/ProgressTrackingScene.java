@@ -39,10 +39,10 @@ public class ProgressTrackingScene extends Template {
     private double previousWeight;
     private double currentWeight;
     
-    private int completedWorkouts = 4;
-    private int totalWorkouts = 6;
-    private int completedFocusWorkouts = 2;
-    private int totalFocusWorkouts = 4;
+    // private int completedWorkouts = 4;
+    // private int totalWorkouts = 6;
+    // private int completedFocusWorkouts = 2;
+    // private int totalFocusWorkouts = 4;
     
     private List<Double> weightHistory = new ArrayList<>();
     private List<LocalDate> dateHistory = new ArrayList<>();
@@ -271,23 +271,7 @@ public class ProgressTrackingScene extends Template {
         
         bodyCard.getChildren().addAll(bodyCardTitle, bodyMetricsGrid);
         
-        // Workout Progress Card
-        VBox workoutCard = new VBox(15);
-        workoutCard.setPadding(new Insets(20));
-        workoutCard.setMaxWidth(600);
-        workoutCard.setAlignment(Pos.TOP_CENTER);
-        workoutCard.setStyle(CARD_STYLE);
-        
-        Label workoutCardTitle = new Label("Progres Latihan");
-        workoutCardTitle.setFont(Font.font("System", FontWeight.BOLD, 18));
-        workoutCardTitle.setTextFill(Color.WHITE);
-        
-        VBox sessionsSection = createProgressSection("SESI LATIHAN HARIAN", completedWorkouts, totalWorkouts, "#2196F3");
-        VBox focusSection = createProgressSection("TANTANGAN FOKUS TUBUH", completedFocusWorkouts, totalFocusWorkouts, "#FF9800");
-        
-        workoutCard.getChildren().addAll(workoutCardTitle, sessionsSection, focusSection);
-        
-        resultsContainer.getChildren().addAll(summaryCard, weightCard, bodyCard, workoutCard);
+        resultsContainer.getChildren().addAll(summaryCard, weightCard, bodyCard); // Removed workoutCard
         return resultsContainer;
     }
     
@@ -486,12 +470,12 @@ public class ProgressTrackingScene extends Template {
     
     public Scene getScene() { return scene; }
     
-    public void updateWorkoutProgress(int completed, int total, int completedFocus, int totalFocus) {
-        this.completedWorkouts = completed;
-        this.totalWorkouts = total;
-        this.completedFocusWorkouts = completedFocus;
-        this.totalFocusWorkouts = totalFocus;
-    }
+    // public void updateWorkoutProgress(int completed, int total, int completedFocus, int totalFocus) {
+    //     this.completedWorkouts = completed;
+    //     this.totalWorkouts = total;
+    //     this.completedFocusWorkouts = completedFocus;
+    //     this.totalFocusWorkouts = totalFocus;
+    // }
     
     public void refreshUserData() {
         user.calculateBMI();
