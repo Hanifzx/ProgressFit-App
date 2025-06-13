@@ -1,87 +1,64 @@
-# ProgressFit 🏋‍♂
+# Aplikasi ProgressFit
 
-*ProgressFit* adalah aplikasi kebugaran sederhana berbasis konsol yang membantu Anda memantau kemajuan kebugaran pribadi. Aplikasi ini memungkinkan Anda untuk mencatat data tubuh, menghitung metrik kesehatan penting seperti BMI dan BMR, serta mendapatkan rekomendasi latihan yang disesuaikan dengan tujuan Anda.
+ProgressFit adalah aplikasi desktop yang dibangun dengan JavaFX, dirancang untuk membantu pengguna melacak perjalanan kebugaran mereka. Aplikasi ini memungkinkan pengguna untuk memasukkan data pribadi, menghitung BMI dan BMR, serta menawarkan berbagai program latihan dan tantangan tubuh. Pengguna juga dapat melacak perubahan berat badan mereka seiring waktu.
 
-## ✨ Fitur Utama
+## Fitur Aplikasi
 
-Aplikasi ini hadir dengan beberapa fitur inti untuk membantu perjalanan kebugaran Anda:
+1.  **Input Data Pengguna**: Pengguna dapat memasukkan nama, jenis kelamin, usia, tinggi badan, dan berat badan.
+2.  **Perhitungan BMI & BMR**: Aplikasi secara otomatis menghitung Body Mass Index (BMI) dan Basal Metabolic Rate (BMR) berdasarkan data yang diinput, serta menampilkan kategori tubuh (misalnya, kekurangan berat badan, normal, kelebihan berat badan, obesitas).
+3.  **Tiga Menu Utama**:
+    * **Latihan Harian**: Menyediakan program latihan untuk tujuan menurunkan berat badan, menaikkan berat badan, dan menjaga stamina/kardio.
+    * **Tantangan Fokus Tubuh**: Menawarkan tantangan latihan yang berfokus pada bagian tubuh tertentu (misalnya, _upper body_ dan _lower body_).
+    * **Progres Evaluasi Perubahan Berat Badan**: Memungkinkan pengguna untuk melacak perubahan berat badan mereka dari waktu ke waktu dan melihat evaluasi progres.
 
-1.  *📝 Input Data Pengguna*
-    * Menyimpan informasi dasar seperti:
-        * Nama
-        * Jenis Kelamin (Pria/Wanita)
-        * Usia (dalam tahun)
-        * Tinggi Badan (dalam cm)
-        * Berat Badan (dalam kg)
+## Cara Menjalankan Aplikasi
 
-2.  *📊 Kalkulator Kesehatan Otomatis*
-    * *BMI (Body Mass Index):* Secara otomatis menghitung Indeks Massa Tubuh Anda untuk mengetahui apakah berat badan Anda ideal.
-    * *BMR (Basal Metabolic Rate):* Menghitung jumlah kalori minimum yang dibutuhkan tubuh Anda saat istirahat.
-    * *Kategori Tubuh:* Memberikan kategori status berat badan Anda (misalnya, Underweight, Normal, Overweight, atau Obesity) berdasarkan hasil BMI.
+Untuk menjalankan aplikasi ProgressFit, ikuti langkah-langkah berikut:
 
-3.  *💪 Menu Latihan Interaktif*
-    * *Latihan Harian:* Menyediakan tiga pilihan program latihan berdasarkan tujuan Anda:
-        * Menurunkan Berat Badan (fokus pada latihan kardio intensitas tinggi)
-        * Menaikkan Berat Badan (fokus pada latihan kekuatan/beban)
-        * Menjaga Stamina (fokus pada latihan kardio)
-    * *Tantangan Fokus Tubuh:* Memberikan tantangan spesifik untuk melatih bagian tubuh tertentu:
-        * Upper Body (Tubuh Bagian Atas)
-        * Lower Body (Tubuh Bagian Bawah)
+1.  **Pastikan Anda memiliki Java Development Kit (JDK) terinstal**: Aplikasi ini membutuhkan Java 11 atau yang lebih baru. Anda bisa mengunduh JDK dari situs web Oracle atau melalui _package manager_ seperti SDKMAN.
+2.  **Kloning Repositori**:
+    ```bash
+    git clone https://github.com/Hanifzx/Home-Workout-App.git
+    cd ProgressFit
+    ```
+3.  **Buka Proyek di IDE**: Impor proyek ke Integrated Development Environment (IDE) pilihan Anda (misalnya, IntelliJ IDEA, Eclipse).
+4.  **Konfigurasi JavaFX**: Pastikan IDE Anda dikonfigurasi dengan JavaFX SDK. Anda mungkin perlu menambahkan modul JavaFX ke _classpath_ proyek Anda.
+5.  **Jalankan Aplikasi**: Jalankan kelas `Main.java` sebagai aplikasi Java.
 
-4.  *📈 Progres Evaluasi*
-    * *Evaluasi Perubahan Berat Badan:* Memungkinkan Anda mencatat berat badan terbaru dan melihat riwayat perubahan dari waktu ke waktu.
-    * *Riwayat Latihan:* Menyimpan semua sesi latihan dan tantangan yang telah Anda selesaikan, lengkap dengan tanggalnya.
+## Struktur Kode
 
-## 🔬 Rumus yang Digunakan
+Struktur kode aplikasi ProgressFit diorganisir dengan pendekatan modular untuk memisahkan tanggung jawab dan meningkatkan keterbacaan.
 
-Transparansi adalah kunci. Berikut adalah rumus yang kami gunakan dalam aplikasi ini:
+* `app/`: Direktori utama yang berisi semua kelas Java aplikasi.
+    * `Main.java`: Kelas utama untuk memulai aplikasi JavaFX.
+    * `User.java`: Merepresentasikan objek pengguna dan menyimpan data pribadi serta progres latihan.
+    * `Exercise.java`: Kelas model untuk merepresentasikan sebuah latihan.
+    * `ExerciseKatalog.java`: Berisi katalog latihan yang berbeda untuk program dan tantangan.
+    * `Template.java`: Kelas abstrak yang berfungsi sebagai _base_ untuk _scenes_ yang memiliki elemen UI umum (seperti _header_).
+    * `OpeningScene.java`: Tampilan awal aplikasi.
+    * `UserDataScene.java`: Tampilan untuk input data pengguna dan perhitungan BMI/BMR.
+    * `MainMenuScene.java`: Tampilan menu utama aplikasi.
+    * `DailyExerciseScene.java`: Tampilan untuk program latihan harian.
+    * `BodyChallengeMenuScene.java`: Tampilan menu untuk memilih jenis tantangan fokus tubuh.
+    * `BodyChallengeScene.java`: Tampilan untuk tantangan fokus tubuh.
+    * `ProgressTrackingScene.java`: Tampilan untuk melacak progres berat badan dan evaluasi.
 
-* *Body Mass Index (BMI)*
-    $$
-    BMI = \frac{\text{berat}(\text{kg})}{(\text{tinggi}(\text{m}))^2}
-    $$
+## Penerapan Pilar OOP
 
-* *Basal Metabolic Rate (BMR)* - Menggunakan formula Mifflin-St Jeor yang diakui akurat.
-    * Untuk Pria:
-        $$
-        BMR = (10 \times \text{berat}(\text{kg})) + (6.25 \times \text{tinggi}(\text{cm})) - (5 \times \text{usia}(\text{tahun})) + 5
-        $$
-    * Untuk Wanita:
-        $$
-        BMR = (10 \times \text{berat}(\text{kg})) + (6.25 \times \text{tinggi}(\text{cm})) - (5 \times \text{usia}(\text{tahun})) - 161
-        $$
+Aplikasi ProgressFit dirancang dan dikembangkan dengan menerapkan pilar-pilar utama Object-Oriented Programming (OOP) untuk mencapai struktur kode yang terorganisir, _maintainable_, dan _scalable_. Pilar-pilar tersebut meliputi:
 
-## 🚀 Cara Menjalankan Aplikasi
+### 1. Encapsulation (Enkapsulasi)
 
-Aplikasi ini dibuat menggunakan *Java* dan dapat dijalankan pada lingkungan konsol (terminal/command prompt) apa pun yang memiliki Java Development Kit (JDK).
+Aplikasi ini menerapkan enkapsulasi dengan memastikan bahwa data internal objek terlindungi dan hanya dapat diakses atau dimodifikasi melalui metode yang telah ditentukan (getter dan setter). Ini menjaga integritas data dan mempromosikan _modularity_ dalam pengembangan.
 
-1.  *Prasyarat:*
-    * Pastikan Anda telah menginstal [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/downloads/).
+### 2. Inheritance (Pewarisan)
 
-2.  *Simpan Kode:*
-    * Salin kode dari file ProgressFit.java dan simpan dalam sebuah file dengan nama yang sama.
+Pewarisan digunakan untuk meningkatkan _reusability_ kode dan menciptakan hierarki kelas yang logis. Kelas-kelas tertentu mewarisi atribut dan perilaku dari kelas dasar, sehingga mengurangi duplikasi dan memungkinkan pengembangan fungsionalitas yang lebih spesifik pada subkelas.
 
-3.  *Kompilasi:*
-    * Buka terminal atau command prompt, navigasikan ke direktori tempat Anda menyimpan file, dan jalankan perintah berikut:
-      bash
-      javac ProgressFit.java
-      
+### 3. Abstraction (Abstraksi)
 
-4.  *Jalankan:*
-    * Setelah kompilasi berhasil, jalankan program dengan perintah:
-      bash
-      java ProgressFit
-      
+Abstraksi diimplementasikan untuk menyembunyikan detail implementasi yang kompleks dan hanya menampilkan fungsionalitas yang esensial kepada pengguna atau bagian lain dari aplikasi. Ini memungkinkan pengembang untuk berinteraksi dengan objek pada tingkat konseptual yang lebih tinggi tanpa perlu memahami mekanisme internalnya.
 
-5.  *Selesai!*
-    * Ikuti instruksi yang muncul di layar untuk mulai menggunakan aplikasi.
+### 4. Polymorphism (Polimorfisme)
 
-## ⚙ Contoh Alur Penggunaan
-
-1.  Saat program dimulai, Anda akan diminta memasukkan data diri.
-2.  Setelah data diisi, program akan menampilkan ringkasan *BMI* dan *BMR* Anda.
-3.  Anda akan disajikan *Menu Utama*.
-4.  Pilih *Latihan Harian* atau *Tantangan Fokus Tubuh* untuk melihat rekomendasi latihan.
-5.  Konfirmasikan jika Anda telah menyelesaikan latihan untuk menyimpannya ke *Riwayat Latihan*.
-6.  Pilih *Progres Evaluasi* untuk mencatat berat badan baru atau melihat riwayat kemajuan Anda.
-7.  Pilih *Keluar* untuk mengakhiri program.
+Polimorfisme memungkinkan objek dari kelas yang berbeda untuk diperlakukan sebagai objek dari kelas induk yang sama. Ini tercapai melalui _method overriding_ dan _interface implementation_, memungkinkan fleksibilitas dalam penanganan objek dan respons yang berbeda terhadap panggilan metode yang sama, tergantung pada tipe objek sebenarnya.
