@@ -26,20 +26,15 @@ public class BodyChallengeMenuScene extends Template {
         this.mainApp = mainApp;
         this.user = user;
         
-        // Create root container
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #1e272e;");
-        
-        // Create and set header
+
         root.setTop(createHeader());
         
-        // Create main content
         VBox mainContent = createMainContent();
-        
-        // Add components to root
+
         root.setCenter(mainContent);
         
-        // Create scene with root
         scene = new Scene(root, width, height);
     }
     
@@ -65,22 +60,17 @@ public class BodyChallengeMenuScene extends Template {
         userNameLabel.setFont(Font.font("System", 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        // --- PERUBAHAN UTAMA DI SINI ---
-        // 1. Muat gambar dari file user-icon.png
         Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
         ImageView userIconView = new ImageView(userIconImage);
-        
-        // 2. Atur ukuran ikon
+
         userIconView.setFitHeight(30);
         userIconView.setFitWidth(30);
         
-        // 3. Buat ikon menjadi bundar
         Circle clip = new Circle(15);
         clip.setCenterX(15);
         clip.setCenterY(15);
         userIconView.setClip(clip);
-        
-        // 4. Tambahkan ImageView ke header
+
         header.getChildren().addAll(backButton, headerTitle, spacer, userNameLabel, userIconView);
         return header;
     }

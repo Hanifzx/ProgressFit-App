@@ -32,7 +32,6 @@ public class BodyChallengeScene extends Template {
     private List<Exercise> baseExercises;
     private int currentWeek = 1;
     
-    // Sidebar components
     private VBox sidebar;
     private VBox exerciseListContainer;
     private Label weekTitleLabel;
@@ -97,7 +96,6 @@ public class BodyChallengeScene extends Template {
         userNameLabel.setFont(Font.font("System", 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        // --- PERUBAHAN UTAMA DI SINI ---
         Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
         ImageView userIconView = new ImageView(userIconImage);
         userIconView.setFitHeight(30);

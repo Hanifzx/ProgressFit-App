@@ -32,7 +32,6 @@ public class ExerciseProgramScene extends Template {
     private List<Exercise> baseExercises;
     private int currentDay = 1;
     
-    // Sidebar components
     private VBox sidebar;
     private VBox exerciseListContainer;
     private Label dayTitleLabel;
@@ -101,7 +100,6 @@ public class ExerciseProgramScene extends Template {
         userNameLabel.setFont(Font.font("System", 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        // --- PERUBAHAN UTAMA DI SINI ---
         Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
         ImageView userIconView = new ImageView(userIconImage);
         userIconView.setFitHeight(30);

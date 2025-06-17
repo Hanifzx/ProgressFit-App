@@ -5,7 +5,7 @@ import java.util.List;
 
 class Exercise {
     private String name;
-    private String sets; // Could be "3 set x 12 repetisi" or "30 detik"
+    private String sets;
 
     public Exercise(String name, String sets) {
         this.name = name;
@@ -16,11 +16,9 @@ class Exercise {
     public String getSets() { return sets; }
 }
 
-// Catalog of all exercises
+
 public class ExerciseKatalog {
 
-    // Method to get exercises for weight gain (Menambah BB)
-// Method to get exercises for weight gain (Menambah BB)
     public List<Exercise> getGerakanMenambahBB() {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("Push-up", "3 set x 10 repetisi"));
@@ -46,8 +44,6 @@ public class ExerciseKatalog {
         return exercises;
     }
 
-
-    // Method to get exercises for weight loss (Menurunkan BB)
     public List<Exercise> getGerakanMenurunkanBB() {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("Jumping Jacks", "3 set x 45 detik"));
@@ -73,8 +69,6 @@ public class ExerciseKatalog {
         return exercises;
     }
 
-
-    // Method to get exercises for stamina (Menjaga Stamina)
     public List<Exercise> getGerakanMenjagaStamina() {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("Jogging di tempat", "3 set x 2 menit"));
@@ -100,7 +94,6 @@ public class ExerciseKatalog {
         return exercises;
     }
 
-    // Method to get exercises for Upper Body challenge
     public List<Exercise> getGerakanUpperBody() {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("Wall Push-up", "3 set x 15 repetisi"));
@@ -126,7 +119,6 @@ public class ExerciseKatalog {
         return exercises;
     }
 
-    // Method to get exercises for Lower Body challenge
     public List<Exercise> getGerakanLowerBody() {
         List<Exercise> exercises = new ArrayList<>();
         exercises.add(new Exercise("Bodyweight Squats", "3 set x 15 repetisi"));

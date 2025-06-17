@@ -13,33 +13,26 @@ public class User {
     private double bmr;
     private String bmiCategory;
 
-    // Map untuk menyimpan status selesai latihan harian (programType -> dayNumber -> isCompleted)
     private Map<String, Map<Integer, Boolean>> dailyExerciseCompletion = new HashMap<>();
 
-    // Map untuk menyimpan status selesai tantangan fokus tubuh (challengeType -> weekNumber -> isCompleted)
     private Map<String, Map<Integer, Boolean>> bodyChallengeCompletion = new HashMap<>();
     
     public User() {
-        // Initialize completion maps for various program and challenge types
-        // This ensures the maps are not null and ready to be populated.
-        // For daily exercises, assumed types are "weight_gain", "weight_loss", "stamina"
+        
         dailyExerciseCompletion.put("weight_gain", new HashMap<>());
         dailyExerciseCompletion.put("weight_loss", new HashMap<>());
         dailyExerciseCompletion.put("stamina", new HashMap<>());
 
-        // For body challenges, assumed types are "upper_body", "lower_body"
         bodyChallengeCompletion.put("upper_body", new HashMap<>());
         bodyChallengeCompletion.put("lower_body", new HashMap<>());
 
-        // Initialize default completion status (false) for each day/week if not already present
-        // This helps in preventing NullPointerExceptions when checking status for new days/weeks
         for (String type : dailyExerciseCompletion.keySet()) {
-            for (int i = 1; i <= 6; i++) { // Asumsi 6 hari latihan harian
+            for (int i = 1; i <= 6; i++) {
                 dailyExerciseCompletion.get(type).put(i, false);
             }
         }
         for (String type : bodyChallengeCompletion.keySet()) {
-            for (int i = 1; i <= 4; i++) { // Asumsi 4 minggu tantangan
+            for (int i = 1; i <= 4; i++) {
                 bodyChallengeCompletion.get(type).put(i, false);
             }
         }

@@ -13,7 +13,6 @@ public class Main extends Application {
     public Stage getPrimaryStage() {
         return primaryStage;
     }
-
     
     @Override
     public void start(Stage primaryStage) {
@@ -23,7 +22,6 @@ public class Main extends Application {
         primaryStage.setTitle("Home Workout App");
         primaryStage.setResizable(true);
         
-        // Set initial scene
         showOpeningScene();
         
         primaryStage.show();
@@ -52,10 +50,9 @@ public class Main extends Application {
     public void showExerciseProgramScene(String programType) {
         ExerciseProgramScene exerciseProgramScene = new ExerciseProgramScene(this, WIDTH, HEIGHT, user, programType);
         
-        // PENTING: Set ukuran stage secara eksplisit
         primaryStage.setWidth(WIDTH);
         primaryStage.setHeight(HEIGHT);
-        primaryStage.centerOnScreen(); // Optional: center window
+        primaryStage.centerOnScreen();
         
         primaryStage.setScene(exerciseProgramScene.getScene());
     }
@@ -65,7 +62,6 @@ public class Main extends Application {
         primaryStage.setScene(bodyChallengeMenuScene.getScene());
     }
 
-    // Tambahkan method untuk ProgressTrackingScene
     public void showProgressTrackingScene() {
         ProgressTrackingScene progressTrackingScene = new ProgressTrackingScene(this, WIDTH, HEIGHT, user);
         primaryStage.setScene(progressTrackingScene.getScene());

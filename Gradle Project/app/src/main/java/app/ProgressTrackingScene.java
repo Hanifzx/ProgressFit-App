@@ -39,11 +39,6 @@ public class ProgressTrackingScene extends Template {
     private double previousWeight;
     private double currentWeight;
     
-    // private int completedWorkouts = 4;
-    // private int totalWorkouts = 6;
-    // private int completedFocusWorkouts = 2;
-    // private int totalFocusWorkouts = 4;
-    
     private List<Double> weightHistory = new ArrayList<>();
     private List<LocalDate> dateHistory = new ArrayList<>();
     
@@ -101,7 +96,6 @@ public class ProgressTrackingScene extends Template {
         userNameLabel.setFont(Font.font("System", FontWeight.NORMAL, 13));
         userNameLabel.setTextFill(Color.WHITE);
         
-        // --- PERUBAHAN UTAMA DI SINI ---
         Image userIconImage = new Image(getClass().getResourceAsStream("/user-icon.png"));
         ImageView userIconView = new ImageView(userIconImage);
         userIconView.setFitHeight(30);
@@ -180,7 +174,6 @@ public class ProgressTrackingScene extends Template {
         resultsContainer.setPadding(new Insets(0, 0, 40, 0));
         resultsContainer.setAlignment(Pos.TOP_CENTER);
         
-        // Summary Card
         VBox summaryCard = new VBox(15);
         summaryCard.setPadding(new Insets(20));
         summaryCard.setMaxWidth(600);
@@ -220,8 +213,7 @@ public class ProgressTrackingScene extends Template {
         
         motivationSection.getChildren().addAll(motivationTitle, motivationTextLabel);
         summaryCard.getChildren().addAll(weightChangeSection, motivationSection);
-        
-        // Weight Metrics Card
+
         VBox weightCard = new VBox(15);
         weightCard.setPadding(new Insets(20));
         weightCard.setMaxWidth(600);
@@ -243,7 +235,6 @@ public class ProgressTrackingScene extends Template {
         
         weightCard.getChildren().addAll(weightCardTitle, metricsGrid);
         
-        // Body Metrics Card
         VBox bodyCard = new VBox(15);
         bodyCard.setPadding(new Insets(20));
         bodyCard.setMaxWidth(600);
@@ -271,7 +262,7 @@ public class ProgressTrackingScene extends Template {
         
         bodyCard.getChildren().addAll(bodyCardTitle, bodyMetricsGrid);
         
-        resultsContainer.getChildren().addAll(summaryCard, weightCard, bodyCard); // Removed workoutCard
+        resultsContainer.getChildren().addAll(summaryCard, weightCard, bodyCard);
         return resultsContainer;
     }
     
@@ -469,13 +460,6 @@ public class ProgressTrackingScene extends Template {
     }
     
     public Scene getScene() { return scene; }
-    
-    // public void updateWorkoutProgress(int completed, int total, int completedFocus, int totalFocus) {
-    //     this.completedWorkouts = completed;
-    //     this.totalWorkouts = total;
-    //     this.completedFocusWorkouts = completedFocus;
-    //     this.totalFocusWorkouts = totalFocus;
-    // }
     
     public void refreshUserData() {
         user.calculateBMI();

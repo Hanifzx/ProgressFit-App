@@ -166,7 +166,6 @@ public class MainMenuScene {
         return header;
     }
 
-    // --- PERUBAHAN UTAMA ADA DI SINI ---
     private VBox createMenuCard(String title, String description, String buttonText, String iconPath) {
         VBox card = new VBox(10);
         card.setPadding(new Insets(15));
@@ -177,14 +176,12 @@ public class MainMenuScene {
                 "-fx-background-radius: 5; " +
                 "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);");
         
-        // Jika iconPath tidak null, gunakan ImageView yang dipotong menjadi bundar
         if (iconPath != null) {
             ImageView iconView = new ImageView(new Image(getClass().getResourceAsStream(iconPath)));
-            double iconSize = 50; // Ukuran ikon bundar
+            double iconSize = 50;
             iconView.setFitHeight(iconSize);
             iconView.setFitWidth(iconSize);
             
-            // Membuat klip bundar untuk memotong gambar
             Circle clip = new Circle(iconSize / 2);
             clip.setCenterX(iconSize / 2);
             clip.setCenterY(iconSize / 2);
@@ -192,7 +189,7 @@ public class MainMenuScene {
             
             card.getChildren().add(iconView);
         } else {
-            // Ikon default jika tidak ada path gambar
+
             Circle iconCircle = new Circle(25);
             iconCircle.setFill(Color.web("rgba(255, 107, 107, 0.15)"));
             card.getChildren().add(iconCircle);
